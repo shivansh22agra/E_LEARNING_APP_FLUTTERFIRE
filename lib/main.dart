@@ -26,6 +26,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+
+      debugShowCheckedModeBanner: false
+      ,
    //   theme: ThemeData(scaffoldBackgroundColor: Colors.black),
       initialRoute: Splash_Screen.id,
       routes: {
