@@ -1,5 +1,7 @@
 import 'package:e_leaning_app/screens/Login_Screen.dart';
+import 'package:e_leaning_app/screens/Splash_Screen.dart';
 import 'package:e_leaning_app/services/authentication.dart';
+import 'package:e_leaning_app/services/storage.dart';
 import 'package:e_leaning_app/utils/const.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +33,7 @@ class _Account_ScreenState extends State<Account_Screen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "Shivansh Agrawal",
+                    finalName??"finalName",
                     style: TextStyle(color: Colors.white, fontSize: 24),
                   ),
                   SizedBox(
@@ -42,7 +44,7 @@ class _Account_ScreenState extends State<Account_Screen> {
                     children: [
                       Icon(EvaIcons.google, color: Colors.red),
                       Text(
-                        "agrawalshivansh22@gmail.com",
+                        finalEmail??"finalEmail",
                         style: kstyle.copyWith(fontSize: 20),
                       )
                     ],
@@ -158,16 +160,21 @@ class _Account_ScreenState extends State<Account_Screen> {
                 height: 30,
                 width: 200,
                 child: MaterialButton(
-                   onPressed: () async {
-                await authentication.signout().whenComplete(() =>
-                    Navigator.pushReplacement(context,
-                        PageTransition(child: Login_Screen(), type: PageTransitionType.rightToLeftWithFade)));
-              },
-
+                  onPressed: () async {
+                    await authentication.signout().whenComplete(() {
+                      SecureStorage secureStorage = SecureStorage();
+                      secureStorage.deleteSecureStorage("email");
+                    }).whenComplete(() => Navigator.pushReplacement(
+                        context,
+                        PageTransition(
+                            child: Login_Screen(),
+                            type: PageTransitionType.rightToLeftWithFade)));
+                  },
                   child: Text(
                     "Sign out",
                     style: TextStyle(
-                        color: Colors.blueGrey, fontWeight: FontWeight.bold,
+                        color: Colors.blueGrey,
+                        fontWeight: FontWeight.bold,
                         fontSize: 20),
                   ),
                 ),
@@ -179,7 +186,7 @@ class _Account_ScreenState extends State<Account_Screen> {
       appBar: AppBar(
         actions: [
           IconButton(
-             onPressed: (){},
+              onPressed: () {},
               icon: Icon(
                 EvaIcons.shoppingBagOutline,
                 color: Colors.white,
