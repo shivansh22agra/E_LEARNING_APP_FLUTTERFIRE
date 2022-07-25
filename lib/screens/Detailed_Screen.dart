@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_leaning_app/services/VideoPlayer.dart';
+import 'package:e_leaning_app/services/paymentGateway.dart';
 import 'package:e_leaning_app/utils/const.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
@@ -138,9 +139,24 @@ class Detailed_Screen extends StatelessWidget {
                   ),
                 ),
               ),
-              ReusableContainer(
-                color: Colors.redAccent,
-                text: "Buy Now",
+              GetBuilder<PaymentGateway>(
+                builder: (value) {
+                  return FlatButton(
+                    onPressed: () {
+                      value.dispatchPayment(
+                          2000,
+                          "Shivansh Agrawal",
+                          7017548212,
+                          "agrawalshivansh22@gmail.com",
+                          "GooglePay");
+                    },
+                    child: ReusableContainer(
+                      color: Colors.redAccent,
+                      text: "Buy Now",
+                    ),
+                  );
+                },
+                init: PaymentGateway(),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -160,7 +176,8 @@ class Detailed_Screen extends StatelessWidget {
                         "detail": Get.arguments["detail"],
                       }).whenComplete(() {
                         Get.snackbar('Hurray',
-                            '${Get.arguments["name"]} is added to the Wishlist',colorText: Colors.white,
+                            '${Get.arguments["name"]} is added to the Wishlist',
+                            colorText: Colors.white,
                             backgroundColor: Color(0xFF333333));
                       });
                     },

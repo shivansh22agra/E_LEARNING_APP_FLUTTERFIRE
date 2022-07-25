@@ -9,22 +9,9 @@ Future getData(String collection) async {
     return snapshot.docs;
   }
 
-  @override
-  void onInit() {
-    // TODO: implement onInit
-    super.onInit();
-  }
-  @override
-  // TODO: implement onDelete
-  InternalFinalCallback<void> get onDelete => super.onDelete;
-  @override
-  void onReady() {
-    // TODO: implement onReady
-    super.onReady();
-  }
-  @override
-  void onClose() {
-    // TODO: implement onClose
-    super.onClose();
+  Future queryData(String queryString)async{
+    return await FirebaseFirestore.instance.collection("top").where("name",isGreaterThanOrEqualTo: queryString).get();
+
+
   }
 }
